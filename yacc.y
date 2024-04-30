@@ -258,6 +258,7 @@ prerequisite_units:
     | prerequisite_units prerequisite_unit
     | prerequisite_units '(' prerequisite_units ')'
     | prerequisite_units '{' prerequisite_units '}'
+     | prerequisite_units ',' prerequisite_unit
     ;
    
 
@@ -399,7 +400,7 @@ def_cmd_spec:
 
 include: 
     INCLUDE filenames
-    | INCLUDE FUNCTION
+    
     ;
 
 filenames:
