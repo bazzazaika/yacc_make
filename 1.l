@@ -109,7 +109,7 @@ $\("filter"     { HandleFunction();return FUNCTION;}//для строчки $(if
 \'[^\']*\'                                                                  { yylval.str = strdup(yytext); return CHARS; }
 
 \`[^\`]*\`                                                                  { return SHELL_COMMAND; }
-$\(shell[^\)]*\)                                                            { return SHELL_COMMAND; }
+\$\("shell".*?\)                                                            { return SHELL_COMMAND; }
 
 "::="|"="                                                                   { return VAR_DEFINITION; }
 [":"|"!"|"?"|"+"]"="                                                        { return VAR_DEFINITION; }
