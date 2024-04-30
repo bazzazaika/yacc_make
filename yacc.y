@@ -397,7 +397,10 @@ def_cmd_spec:
 //для включений других make-файлов//
 
 
-include: INCLUDE filenames
+include: 
+    INCLUDE filenames
+    | INCLUDE FUNCTION
+    ;
 
 filenames:
     filename
