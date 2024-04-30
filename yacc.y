@@ -69,9 +69,9 @@ line: EOL
     | CHARS EOL                    { ErrorMsg("alone unit","", g_line_amt-1);}
     | SHELL_COMMAND EOL            { ErrorMsg("alone unit","", g_line_amt-1);}
                                     //
-    | command_seq                  { CheckCurState();}
-    | variable EOL                    { ToggleCurState(FALSE);}              
+    | command_seq                  { CheckCurState();}       
     | target                       { ToggleCurState(TRUE);}
+    //| variable EOL                    { ToggleCurState(FALSE);}   
     | condition                 
     | include                       //включение нового make-файла
     | define                        //именованная командная последовательность
@@ -103,7 +103,7 @@ variable_name:
     | VAR_AUT                                         { ErrorMsg("auto var",(const char*)$1, g_line_amt);}
     | PATH	                                          { ErrorMsg("path var",(const char*)$1, g_line_amt);}
     | NAME_OF_FILE                                    { ErrorMsg("filename var",(const char*)$1, g_line_amt);}
-    | UNIT_NAME '$' '(' UNIT_NAME ')'
+    //| UNIT_NAME '$' '(' UNIT_NAME ')'
     ;
 
 variable_units: 
@@ -207,13 +207,21 @@ target:
       target_spec prerequisite EOL       
     | target_spec prerequisite ';' units EOL
     | target_spec prerequisite ';' EOL
- 
+    //| target_names VAR_DEFINITION                    //объявление переменной: имя = последовательность_символов
+    //| target_names VAR_DEFINITION variable_units
+    | EXPORT mult_unit_names 
+    | EXPORT variable
+    | UNEXPORT mult_unit_names 
+    | UNEXPORT variable
+    | OVERRIDE variable
+    | PRIVATE variable
 
     ;
 
 target_spec: 
-      target_names ':'
+      target_names ':' 
     | target_names ':'':'
+    | target_names VAR_DEFINITION  
     | SFX_TRGT ':'
     | SPECIAL ':'
     ;
@@ -238,7 +246,8 @@ target_name:
 //правила для пререквизитов//
 
 prerequisite:
-    | prerequisite_units             
+    | prerequisite_units 
+    | variable_units            
     ;
 
 prerequisite_units: 
