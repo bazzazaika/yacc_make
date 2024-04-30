@@ -337,6 +337,7 @@ cond:
 //правила для многострочных переменных//
 
 define: DEFINE UNIT_NAME EOL def_cmds ENDEF EOL
+    | DEFINE NAME_OF_FILE EOL def_cmds ENDEF EOL
     ;
 
 def_cmds: 
@@ -348,6 +349,7 @@ def_cmd:
       def_cmd_spec 
     | VAR_DEFINITION
     | SHELL_COMMAND
+    | COMMAND
     | NAME_OF_FILE
     | variable_value
     | UNIT_NAME
