@@ -95,6 +95,7 @@ $\("value"      { HandleFunction();return FUNCTION;}
 $\("wordlist"   { HandleFunction();return FUNCTION;}
 $\("wildcard"   { HandleFunction();return FUNCTION;}
 $\("word"       { HandleFunction();return FUNCTION;}
+$\("filter"       { HandleFunction();return FUNCTION;}//для строчки $(if $(filter __%, $(MAKECMDGOALS)), \
 
 ^"%"({UNIT_NAME}|{DIGIT}|[\.]|[//])*                                        { return TEMPLATE_TRGT;}
 ^"."({UNIT_NAME}|{DIGIT})*"."({UNIT_NAME}|{DIGIT})+                         { return SFX_TRGT;}

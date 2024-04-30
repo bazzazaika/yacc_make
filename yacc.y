@@ -400,8 +400,7 @@ int yyerror(const char *s)
 {  
     fprintf(stderr, "\nLine %u: ", g_line_amt);
     fprintf(stderr, "\033[31merror");
-    fprintf(stderr, "\033[0m: %s", s);
-    fprintf(stderr, "\nProgram finished analysis\n");
+    fprintf(stderr, "\033[0m: %s\n", s);
     exit(0);
 }
 
