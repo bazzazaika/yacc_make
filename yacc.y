@@ -370,11 +370,15 @@ def_cmd_spec:
 
 include: INCLUDE filenames
 
-filenames: 
+filenames:
+    filename
+    | filenames filename
+
+filename: 
       UNIT_NAME
     | PATH
     | NAME_OF_FILE
-    | variable_value
+    | variable_value 
     ;
 
 units: 
