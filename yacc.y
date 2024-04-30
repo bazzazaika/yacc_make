@@ -76,6 +76,7 @@ line: EOL
     | include                       //включение нового make-файла
     | define                        //именованная командная последовательность
     | ERROR
+    | FUNCTION
     ;
 
 
