@@ -44,7 +44,7 @@ void ErrorMsg(const char* error_type, const char* error_cause, int line_number);
 %token SPECIAL
 %token IFNEQ IFEQ 
 %token ELSE IFDEF IFNDEF ENDEF ENDIF
-%token INCLUDE DEFINE EXPORT UNEXPORT OVERRIDE ERROR FUNCTION
+%token INCLUDE DEFINE EXPORT UNEXPORT OVERRIDE ERROR FUNCTION PRIVATE
 
 %token <str> PATH
 %token <str> CHARS
@@ -70,7 +70,7 @@ line: EOL
     | SHELL_COMMAND EOL            { ErrorMsg("alone unit","", g_line_amt-1);}
                                     //
     | command_seq                  { CheckCurState();}
-    | variable                     { ToggleCurState(FALSE);}              
+    | variable EOL                    { ToggleCurState(FALSE);}              
     | target                       { ToggleCurState(TRUE);}
     | condition                 
     | include                       //включение нового make-файла
@@ -81,13 +81,14 @@ line: EOL
 
 
 variable: 
-      variable_name VAR_DEFINITION EOL                   //объявление переменной: имя = последовательность_символов
-    | variable_name VAR_DEFINITION variable_units EOL   //для экспорта переменных верхнего уровня на нижний
-    | EXPORT mult_unit_names EOL
+      variable_name VAR_DEFINITION                    //объявление переменной: имя = последовательность_символов
+    | variable_name VAR_DEFINITION variable_units    //для экспорта переменных верхнего уровня на нижний
+    | EXPORT mult_unit_names 
     | EXPORT variable
-    | UNEXPORT mult_unit_names EOL
+    | UNEXPORT mult_unit_names 
     | UNEXPORT variable
     | OVERRIDE variable
+    | PRIVATE variable
     ;
 
 mult_unit_names:
@@ -204,6 +205,8 @@ target:
       target_spec prerequisite EOL       
     | target_spec prerequisite ';' units EOL
     | target_spec prerequisite ';' EOL
+ 
+
     ;
 
 target_spec: 
@@ -226,6 +229,7 @@ target_name:
     | template
     | VAR_AUT                                       { ErrorMsg("auto var",(const char*)$1, g_line_amt);}
     | variable_value
+    
     ;
 
 
@@ -248,6 +252,7 @@ prerequisite_unit:
     | template
     | VAR_AUT                                       { ErrorMsg("auto var", (const char*)$1, g_line_amt);}
     | variable_value
+    | variable
     ;
 
 template: 
@@ -381,6 +386,7 @@ filename:
     | PATH
     | NAME_OF_FILE
     | variable_value 
+    | FUNCTION 
     ;
 
 units: 
@@ -429,7 +435,7 @@ int yyerror(const char *s)
 int main(int argc, char **argv)
 {
   #ifdef YYDEBUG
-    //yydebug = 1;
+    yydebug = 1;
   #endif
   if (argc > 1)
   {

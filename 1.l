@@ -61,6 +61,7 @@ CMD_S ^(\@[^\@]*\@)?\t[^\n]*
 "unexport" { return UNEXPORT;}
 "override" { return OVERRIDE;}
 "include"  { return INCLUDE;}
+"private"  { return PRIVATE;}
 <<EOF>>     { static int once = 0; return once++ ? 0 : EOL;}
   
 
