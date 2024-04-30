@@ -77,6 +77,8 @@ line: EOL
     | define                        //именованная командная последовательность
     | ERROR
     | FUNCTION
+    | FUNCTION ':' NAME_OF_FILE EOL
+    | FUNCTION ':' NAME_OF_FILE ';'
     ;
 
 
@@ -435,7 +437,7 @@ int yyerror(const char *s)
 int main(int argc, char **argv)
 {
   #ifdef YYDEBUG
-    yydebug = 1;
+    //yydebug = 1;
   #endif
   if (argc > 1)
   {

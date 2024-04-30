@@ -1,7 +1,1 @@
-
-ifeq ($(abs_srctree)/,$(dir $(abs_objtree)))
-		# building in a subdirectory of the source tree
-		srctree := ..
-else
-		srctree := $(abs_srctree) asdf
-endif 
+$(sort $(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)): . ;

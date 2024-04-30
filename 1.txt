@@ -1,0 +1,28 @@
+bison --debug -dt yacc.y
+yacc.y: warning: 29 shift/reduce conflicts [-Wconflicts-sr]
+yacc.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+flex 1.l
+gcc -o parser lex.yy.c yacc.tab.c -ll
+./parser test/test
+Starting parse
+Entering state 0
+Stack now 0
+Reading a token
+Next token is token FUNCTION ()
+Shifting token FUNCTION ()
+Entering state 22
+Stack now 0 22
+Reducing stack by rule 14 (line 79):
+   $1 = token FUNCTION ()
+-> $$ = nterm line ()
+Entering state 32
+Stack now 0 32
+Reducing stack by rule 1 (line 62):
+   $1 = nterm line ()
+-> $$ = nterm input ()
+Entering state 31
+Stack now 0 31
+Reading a token
+Next token is token ':' ()
+
+Line 1: [31merror[0m: syntax error, unexpected ':'
