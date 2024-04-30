@@ -44,7 +44,7 @@ void ErrorMsg(const char* error_type, const char* error_cause, int line_number);
 %token SPECIAL
 %token IFNEQ IFEQ 
 %token ELSE IFDEF IFNDEF ENDEF ENDIF
-%token INCLUDE DEFINE EXPORT ERROR FUNCTION
+%token INCLUDE DEFINE EXPORT UNEXPORT OVERRIDE ERROR FUNCTION
 
 %token <str> PATH
 %token <str> CHARS
@@ -83,8 +83,16 @@ line: EOL
 variable: 
       variable_name VAR_DEFINITION EOL                   //объявление переменной: имя = последовательность_символов
     | variable_name VAR_DEFINITION variable_units EOL   //для экспорта переменных верхнего уровня на нижний
-    | EXPORT UNIT_NAME EOL
+    | EXPORT mult_unit_names EOL
     | EXPORT variable
+    | UNEXPORT mult_unit_names EOL
+    | UNEXPORT variable
+    | OVERRIDE variable
+    ;
+
+mult_unit_names:
+      UNIT_NAME
+    | mult_unit_names UNIT_NAME
     ;
 
 variable_name: 

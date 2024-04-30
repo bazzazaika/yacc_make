@@ -58,6 +58,8 @@ CMD_S ^(\@[^\@]*\@)?\t[^\n]*
 "ifndef"    { return IFNDEF;}
 ^"define"   { return DEFINE;}
 ^"export"   { return EXPORT;}
+^"unexport" { return UNEXPORT;}
+^"override" { return OVERRIDE;}
 ^"include"  { return INCLUDE;}
 <<EOF>>     { static int once = 0; return once++ ? 0 : EOL;}
   
