@@ -163,6 +163,9 @@ variable_value:
     | '$' '{' NAME_OF_FILE '}'                      { ErrorMsg("filename var",(const char*)$3, g_line_amt); }
     | '$' '(' NAME_OF_FILE ')'                      { ErrorMsg("filename var",(const char*)$3, g_line_amt); }
     | '$' '(' variable_unit ')'
+
+    | '$' '(' UNIT_NAME ')' '/'
+
     | '$' '{' variable_unit '}'
     | '$' '$' '(' variable_units ')'                                 //переменные записываются в скрипте как `$(foo)' или `${foo}'
     | '$' '$' '{' variable_units '}'
@@ -404,6 +407,7 @@ void ErrorMsg(const char* error_type, const char* error_cause, int line_number)
     printf("\033[0m: %s ", error_type);
     if (strcmp(error_cause, "") > 0)
         printf("\033[35m%s\033[0m", error_cause);
+    printf("\n");
 }
 
 
