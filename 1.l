@@ -98,6 +98,7 @@ $\("wildcard"   { HandleFunction();return FUNCTION;}
 $\("word"       { HandleFunction();return FUNCTION;}
 $\("filter"     { HandleFunction();return FUNCTION;}//для строчки $(if $(filter __%, $(MAKECMDGOALS)), \
 
+
 ^"%"({UNIT_NAME}|{DIGIT}|[\.]|[//])*                                        { return TEMPLATE_TRGT;}
 ^"."({UNIT_NAME}|{DIGIT})*"."({UNIT_NAME}|{DIGIT})+                         { return SFX_TRGT;}
 
@@ -135,6 +136,7 @@ static void HandleFunction()
     int c = 0; 
     int sc_count = 1; 
     int prev = 0;
+    int prev2 = 0;
     while((c=input())) 
     { 
         switch (c)
@@ -152,15 +154,30 @@ static void HandleFunction()
             }
             case '\n':
             {
+                //printf("IM HERE %c %c\n", prev2, c);
                 if (prev == '\\')
                 {
+                    
+                    prev = c;
+                    ++g_line_amt;
+                    break;
+                }
+                if (prev2 == '\\')
+                {
+                    
+                    prev = c;
                     ++g_line_amt;
                     break;
                 }
                 else
                     yyerror("!syntax function error");                
             }
-            default: prev = c; break;
+            default: {
+                prev2 = prev;
+                prev = c;
+                //printf("%c\n", prev);
+                break;
+            }
         }
     }
 }
