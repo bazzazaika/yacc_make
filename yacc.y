@@ -100,6 +100,7 @@ variable_name:
     | VAR_AUT                                         { ErrorMsg("auto var",(const char*)$1, g_line_amt);}
     | PATH	                                          { ErrorMsg("path var",(const char*)$1, g_line_amt);}
     | NAME_OF_FILE                                    { ErrorMsg("filename var",(const char*)$1, g_line_amt);}
+    | UNIT_NAME '$' '(' UNIT_NAME ')'
     ;
 
 variable_units: 
@@ -165,8 +166,8 @@ variable_value:
     | '$' '(' variable_unit ')'
 
     | '$' '(' UNIT_NAME ')' '/'
-    | UNIT_NAME '$' '(' UNIT_NAME ')'
     
+
     | '$' '{' variable_unit '}'
     | '$' '$' '(' variable_units ')'                                 //переменные записываются в скрипте как `$(foo)' или `${foo}'
     | '$' '$' '{' variable_units '}'
