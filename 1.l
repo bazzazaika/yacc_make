@@ -10,7 +10,7 @@ static void HandleFunction();
 %}
 
 DIGIT [0-9]
-UNIT_NAME [_a-zA-Z\*\-\+\@\\]
+UNIT_NAME [_a-zA-Z\*\-\+\@\\\'\"]
 
 RUN_CMD ^(\@[^\@]*\@)?\t\.\/[^\n]*          
 CMD_S ^(\@[^\@]*\@)?\t[^\n]*
@@ -76,6 +76,7 @@ $\("eval"       { HandleFunction();return FUNCTION;}
 $\("error"      { HandleFunction();return ERROR;   }
 $\("file"       { HandleFunction();return FUNCTION;}
 $\("firstword"  { HandleFunction();return FUNCTION;}
+$\("lastword"   { HandleFunction();return FUNCTION;}
 $\("findstring" { HandleFunction();return FUNCTION;}
 $\("foreach"    { HandleFunction();return FUNCTION;}
 $\("filter-out" { HandleFunction();return FUNCTION;}
@@ -95,7 +96,7 @@ $\("value"      { HandleFunction();return FUNCTION;}
 $\("wordlist"   { HandleFunction();return FUNCTION;}
 $\("wildcard"   { HandleFunction();return FUNCTION;}
 $\("word"       { HandleFunction();return FUNCTION;}
-$\("filter"       { HandleFunction();return FUNCTION;}//для строчки $(if $(filter __%, $(MAKECMDGOALS)), \
+$\("filter"     { HandleFunction();return FUNCTION;}//для строчки $(if $(filter __%, $(MAKECMDGOALS)), \
 
 ^"%"({UNIT_NAME}|{DIGIT}|[\.]|[//])*                                        { return TEMPLATE_TRGT;}
 ^"."({UNIT_NAME}|{DIGIT})*"."({UNIT_NAME}|{DIGIT})+                         { return SFX_TRGT;}
