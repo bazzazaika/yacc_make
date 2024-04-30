@@ -165,7 +165,8 @@ variable_value:
     | '$' '(' variable_unit ')'
 
     | '$' '(' UNIT_NAME ')' '/'
-
+    | UNIT_NAME '$' '(' UNIT_NAME ')'
+    
     | '$' '{' variable_unit '}'
     | '$' '$' '(' variable_units ')'                                 //переменные записываются в скрипте как `$(foo)' или `${foo}'
     | '$' '$' '{' variable_units '}'
@@ -426,6 +427,9 @@ int yyerror(const char *s)
 
 int main(int argc, char **argv)
 {
+  #ifdef YYDEBUG
+    //yydebug = 1;
+  #endif
   if (argc > 1)
   {
     if(!(yyin = fopen(argv[1], "r")))
