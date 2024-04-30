@@ -209,19 +209,19 @@ target:
     | target_spec prerequisite ';' EOL
     //| target_names VAR_DEFINITION                    //объявление переменной: имя = последовательность_символов
     //| target_names VAR_DEFINITION variable_units
-    | EXPORT mult_unit_names 
-    | EXPORT variable
-    | UNEXPORT mult_unit_names 
-    | UNEXPORT variable
-    | OVERRIDE variable
-    | PRIVATE variable
+    | EXPORT mult_unit_names EOL 
+    | EXPORT variable EOL
+    | UNEXPORT mult_unit_names EOL
+    | UNEXPORT variable EOL
+    | OVERRIDE variable EOL
+    | PRIVATE variable EOL
 
     ;
 
 target_spec: 
       target_names ':' 
     | target_names ':'':'
-    | target_names VAR_DEFINITION  
+    | target_names VAR_DEFINITION 
     | SFX_TRGT ':'
     | SPECIAL ':'
     ;
@@ -246,17 +246,24 @@ target_name:
 //правила для пререквизитов//
 
 prerequisite:
-    | prerequisite_units 
-    | variable_units            
+    | prerequisite_units            
     ;
 
-prerequisite_units: 
-      prerequisite_unit
+
+
+prerequisite_units:
+    '(' prerequisite_units ')'
+    |'{' prerequisite_units '}' 
+    | prerequisite_unit
     | prerequisite_units prerequisite_unit
+    | prerequisite_units '(' prerequisite_units ')'
+    | prerequisite_units '{' prerequisite_units '}'
     ;
+   
 
 prerequisite_unit: 
       UNIT_NAME 
+    | CHARS  
     | PATH
     | NAME_OF_FILE
     | FUNCTION
@@ -264,6 +271,8 @@ prerequisite_unit:
     | VAR_AUT                                       { ErrorMsg("auto var", (const char*)$1, g_line_amt);}
     | variable_value
     | variable
+    | SHELL_COMMAND
+    | variable_unit_spec  
     ;
 
 template: 
