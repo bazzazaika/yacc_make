@@ -50,17 +50,17 @@ CMD_S ^(\@[^\@]*\@)?\t[^\n]*
 [ \t]+\n    { ++g_line_amt; cont = 0; return EOL;}
 "@"         {  }
 "else"      { return ELSE;}
-^"endef"    { return ENDEF;}
+"endef"    { return ENDEF;}
 "ifeq"      { return IFEQ;}
 "endif"     { return ENDIF;}
 "ifneq"     { return IFNEQ;}
 "ifdef"     { return IFDEF;}
 "ifndef"    { return IFNDEF;}
-^"define"   { return DEFINE;}
-^"export"   { return EXPORT;}
-^"unexport" { return UNEXPORT;}
-^"override" { return OVERRIDE;}
-^"include"  { return INCLUDE;}
+"define"   { return DEFINE;}
+"export"   { return EXPORT;}
+"unexport" { return UNEXPORT;}
+"override" { return OVERRIDE;}
+"include"  { return INCLUDE;}
 <<EOF>>     { static int once = 0; return once++ ? 0 : EOL;}
   
 
@@ -128,7 +128,7 @@ $("@"|"%"|"<"|"?"|"^"|"+"|"*")                                              { yy
 ({UNIT_NAME}|{DIGIT}|[\.])+                                                 { yylval.str = strdup(yytext); return NAME_OF_FILE; }
 (\/|[\.\.]|[\.])?(({UNIT_NAME}|{DIGIT}|[\.]|[\.\.])+[\/]?)+([\/]|[\/\*])?   { yylval.str = strdup(yytext); return PATH; }
 
-[ \t\f\v\r]
+[ \t\f\v\r] {}
 .                                                                           { printf("Unrecognized symbol: %c\n",yytext[0]);yyerror("lexical error"); exit(0); }
 
 %%
