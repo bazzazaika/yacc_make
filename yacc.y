@@ -107,6 +107,7 @@ variable_units:
     | CHARS
     | PATH
     | NAME_OF_FILE
+    | TEMPLATE
     |'(' variable_units ')'
     |'{' variable_units '}' 
     | variable_unit
@@ -115,6 +116,7 @@ variable_units:
     | variable_units CHARS
     | variable_units PATH
     | variable_units NAME_OF_FILE
+    | variable_units TEMPLATE
     | variable_units '(' variable_units ')'
     | variable_units '{' variable_units '}'
     ;
